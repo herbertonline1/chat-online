@@ -1,20 +1,18 @@
-const { Server } = require('socket.io');
+const express = require('express');
 const http = require('http');
+const socketIo = require('socket.io');
 
-// Função serverless para a Vercel
 module.exports = (req, res) => {
-  const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('WebSocket funcionando!');
-  });
-
-  const io = new Server(server, {
-    path: '/api/socket', // Rota para WebSocket
-    transports: ['websocket'], // Usando WebSocket (pode usar também 'polling' caso precise de fallback)
+  const app = express();
+  const server = http.createServer(app);
+  const io = socketIo(server, {
+    transports: ['websocket']  // Garanta que usamos WebSockets como transporte.
   });
 
   const players = [];
   let currentQuiz = null;
+
+  app.use(express.static('public'));
 
   // Lógica do WebSocket
   io.on('connection', socket => {
@@ -111,11 +109,6 @@ module.exports = (req, res) => {
     });
   });
 
-  // Inicia o servidor HTTP (necessário para Vercel)
-  server.listen(0, () => {
-    console.log('Servidor WebSocket rodando no Vercel!');
-  });
-
-  // Vercel precisa da resposta HTTP para ser enviada
-  res.status(200).send("Função serverless rodando!");
+  // Não é necessário escutar a porta, o Vercel já cuida disso.
+  res.status(200).send('Função serverless rodando!');
 };
