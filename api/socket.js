@@ -2,8 +2,9 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 
-// Função exportada para o Vercel (a função serverless)
+// Função exportada para a Vercel (serverless)
 module.exports = (req, res) => {
+  // Criação do aplicativo Express e do servidor HTTP
   const app = express();
   const server = http.createServer(app);
   const io = socketIo(server);
@@ -13,6 +14,7 @@ module.exports = (req, res) => {
 
   app.use(express.static('public'));
 
+  // Lógica do WebSocket
   io.on('connection', socket => {
     console.log('Usuário conectado:', socket.id);
 
@@ -107,5 +109,6 @@ module.exports = (req, res) => {
     });
   });
 
-  // NÃO escutamos uma porta no Vercel
+  // Enviar uma resposta HTTP básica para o Vercel
+  res.status(200).send("Função serverless rodando!");
 };
