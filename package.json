@@ -8,6 +8,6 @@
     "http": "^0.0.1"
   },
   "scripts": {
-    "start": "vercel dev"  // Para rodar localmente com Vercel CLI
+    "start": "vercel dev"  
   }
 }
