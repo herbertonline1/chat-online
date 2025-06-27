@@ -4,10 +4,10 @@
   "main": "api/socket.js",
   "dependencies": {
     "express": "^4.18.0",
-    "socket.io": "^4.6.0"
+    "socket.io": "^4.6.0",
+    "http": "^0.0.1"
   },
   "scripts": {
-    "start": "node api/socket.js"
+    "start": "vercel dev"  // Para rodar localmente com Vercel CLI
   }
 }
-
