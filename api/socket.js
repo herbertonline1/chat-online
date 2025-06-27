@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 
+// Esta função será usada pelo Vercel para rodar a aplicação serverless
 module.exports = (req, res) => {
   const app = express();
   const server = http.createServer(app);
@@ -12,9 +13,7 @@ module.exports = (req, res) => {
   const players = [];
   let currentQuiz = null;
 
-  app.use(express.static('public'));
-
-  // Lógica do WebSocket
+  // Lógica para lidar com as requisições
   io.on('connection', socket => {
     console.log('Usuário conectado:', socket.id);
 
@@ -109,6 +108,6 @@ module.exports = (req, res) => {
     });
   });
 
-  // Não é necessário escutar a porta, o Vercel já cuida disso.
+  // Resposta básica do Vercel
   res.status(200).send('Função serverless rodando!');
 };
